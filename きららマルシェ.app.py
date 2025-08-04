@@ -31,8 +31,8 @@ if not st.session_state["authenticated"]:
 st.title("♬ダンス練習チェッカー(まちかね・単独)")
 
 # 全メンバー（事前入力）
-all_members = ["ゆう", "まこ", "ちさと", "こゆき", "ひな", "しおん", "そら", "なるみ", "ありさ", "ひまり",
-               "ひじり", "まあや", "ともか", "はるか", "こゆ", "まい", "ゆー", "あんな", "はる"]
+all_members = ["ゆう", "まこ", "ちさと", "こゆき", "ひな", "しおん", "そら", "なるみ",  "ひまり",
+               "ひじり", "まい", "ゆー", "あんな"]
 
 # 曲とメンバーの対応表
 songs = {
@@ -105,4 +105,5 @@ for song, members in songs.items():
     st.write(f"👥 全体人数: {len(members)}")
     st.write(f"🙋‍♀️ 出席人数: {len(attending)}")
     st.write(f"✅ 出席: {'、'.join(sorted(attending)) or 'なし'}")
+
     st.write(f"❌ 不在: {'、'.join(sorted(absent)) or 'なし'}")
