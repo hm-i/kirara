@@ -1,34 +1,10 @@
 import streamlit as st
 
-# ==================
-# 🔐 ログイン情報
-# ==================
-USERNAME = "Syny"
-PASSWORD = "jpd"  # パスワードを変更
-
-def check_login():
-    st.title("🔐 ログイン")
-    username = st.text_input("ユーザー名")
-    password = st.text_input("パスワード", type="password")
-    if st.button("ログイン"):
-        if username == USERNAME and password == PASSWORD:
-            st.session_state["authenticated"] = True
-        else:
-            st.error("ユーザー名またはパスワードが違います")
-
-# 初回は認証状態を False に
-if "authenticated" not in st.session_state:
-    st.session_state["authenticated"] = False
-
-# 未認証ならログイン表示
-if not st.session_state["authenticated"]:
-    check_login()
-    st.stop()
 
 # ==================
 # 🎵 アプリ本体
 # ==================
-st.title("♬ダンス練習チェッカー(まちかね・単独)")
+st.title("♬ダンス練習チェッカー(きららマルシェ・まちかね・単独)")
 
 # 全メンバー（事前入力）
 all_members = ["ゆう", "まこ", "ちさと", "ひな", "しおん", "そら", "なるみ",  "ひまり",
@@ -107,3 +83,4 @@ for song, _, _, _ in ranking:  # 出席率順に並べられた曲名リスト�
     st.write(f"🙋‍♀️ 出席人数: {len(attending)}")
     st.write(f"✅ 出席: {'、'.join(sorted(attending)) or 'なし'}")
     st.write(f"❌ 不在: {'、'.join(sorted(absent)) or 'なし'}")
+
