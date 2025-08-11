@@ -71,50 +71,17 @@ selected_members = st.session_state.selected_members
 
 st.write(f"選択中のメンバー: {', '.join(sorted(selected_members))}")
 
-
 # ----------------------
-# 📊 出席ランキング（上位順）
-# ----------------------
-# メイン曲のランキング
-ranking = []
-for song, members in songs.items():
-    attending = members & selected_members
-    rate = len(attending) / len(members) if members else 0
-    ranking.append((song, len(attending), len(members), rate))
-
-ranking.sort(key=lambda x: x[3], reverse=True)
-
-st.markdown("---")
-st.markdown("## 🏆 出席率ランキング（高い順）")
-for song, count, total, rate in ranking:
-    st.write(f"🎵 **{song}**：{count} / {total}人 出席（{rate:.0%}）")
-
-
-# ----------------------
-# 📋 各曲の出席状況（出席率順に並べる）
+# ユニット曲の表示/非表示の選択
 # ----------------------
 st.markdown("---")
-st.markdown("## 📋 曲ごとの出席状況（出席率順）")
-
-for song, _, _, _ in ranking:
-    members = songs[song]
-    attending = members & selected_members
-    absent = members - selected_members
-
-    st.subheader(f"🎵 {song}")
-    st.write(f"👥 全体人数: {len(members)}")
-    st.write(f"🙋‍♀️ 出席人数: {len(attending)}")
-    st.write(f"✅ 出席: {'、'.join(sorted(attending)) or 'なし'}")
-    st.write(f"❌ 不在: {'、'.join(sorted(absent)) or 'なし'}")
-
+show_unit_songs = st.checkbox("ユニット曲の参加率を表示する")
 
 # ----------------------
-# ユニット曲の出席状況（表示/非表示）
+# 📊 出席ランキング（表示切り替え）
 # ----------------------
-st.markdown("---")
-show_unit_songs = st.checkbox("ユニット曲の参加率表を表示する")
-
 if show_unit_songs:
+    # ユニット曲のランキングと詳細を表示
     st.markdown("## 🏆 ユニット曲の出席率ランキング")
     unit_ranking = []
     for song, members in unit_songs.items():
@@ -129,9 +96,35 @@ if show_unit_songs:
 
     st.markdown("---")
     st.markdown("## 📋 ユニット曲ごとの出席状況")
-
     for song, _, _, _ in unit_ranking:
         members = unit_songs[song]
+        attending = members & selected_members
+        absent = members - selected_members
+
+        st.subheader(f"🎵 {song}")
+        st.write(f"👥 全体人数: {len(members)}")
+        st.write(f"🙋‍♀️ 出席人数: {len(attending)}")
+        st.write(f"✅ 出席: {'、'.join(sorted(attending)) or 'なし'}")
+        st.write(f"❌ 不在: {'、'.join(sorted(absent)) or 'なし'}")
+
+else:
+    # 全体曲のランキングと詳細を表示
+    ranking = []
+    for song, members in songs.items():
+        attending = members & selected_members
+        rate = len(attending) / len(members) if members else 0
+        ranking.append((song, len(attending), len(members), rate))
+
+    ranking.sort(key=lambda x: x[3], reverse=True)
+
+    st.markdown("## 🏆 出席率ランキング（高い順）")
+    for song, count, total, rate in ranking:
+        st.write(f"🎵 **{song}**：{count} / {total}人 出席（{rate:.0%}）")
+
+    st.markdown("---")
+    st.markdown("## 📋 曲ごとの出席状況（出席率順）")
+    for song, _, _, _ in ranking:
+        members = songs[song]
         attending = members & selected_members
         absent = members - selected_members
 
