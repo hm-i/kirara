@@ -89,9 +89,25 @@ song_leaders = {
     "２,３年学年曲【単独】": ""
 }
 
-# =====================
-# ✅ 出席メンバー選択
-# =====================
+
+# ========================
+# 🎨 曲アイコン関数
+# ========================
+def get_song_icon(song_name):
+    if "【きらら】" in song_name:
+        return "✨"
+    elif "【まちかね・単独】" in song_name:
+        return "🫧🌸"
+    elif "【まちかね】" in song_name:
+        return "🫧"
+    elif "【単独】" in song_name:
+        return "🌸"
+    else:
+        return "🎵"
+
+# ========================
+# ✅ 出席メンバーの選択
+# ========================
 st.markdown("## ✅ 出席メンバーを選択")
 
 if "selected_members" not in st.session_state:
@@ -108,19 +124,20 @@ for idx, member in enumerate(all_members):
         st.session_state.selected_members.remove(member)
 
 selected_members = st.session_state.selected_members
-st.write(f"選択中のメンバー: {', '.join(sorted(selected_members))}")
-
-# =====================
-# 🎵 ユニット曲表示切替
-# =====================
+st.write(f"選択中のメンバー: {', '.join(sorted(selected_members)) or '（未選択）'}")
+# ========================
+# 🎛️ ユニット曲表示切り替え
+# ========================
 st.markdown("---")
 show_unit_songs = st.checkbox("ユニット曲の参加率を表示する")
 
-# =====================
-# 📊 出席ランキング表示
-# =====================
+# ========================
+# 📊 出席率ランキング表示
+# ========================
 if show_unit_songs:
-    # ユニット曲の表示
+    # ========================
+    # 🏆 ユニット曲の出席率ランキング
+    # ========================
     st.markdown("## 🏆 ユニット曲の出席率ランキング")
     unit_ranking = []
 
@@ -132,8 +149,12 @@ if show_unit_songs:
     unit_ranking.sort(key=lambda x: x[3], reverse=True)
 
     for song, count, total, rate in unit_ranking:
-        st.write(f"🎵 **{song}**：{count} / {total}人 出席（{rate:.0%}）")
+        icon = get_song_icon(song)
+        st.write(f"{icon} **{song}**：{count} / {total}人 出席（{rate:.0%}）")
 
+    # ========================
+    # 📋 ユニット曲の詳細出席状況
+    # ========================
     st.markdown("---")
     st.markdown("## 📋 ユニット曲ごとの出席状況")
 
@@ -141,15 +162,19 @@ if show_unit_songs:
         members = unit_songs[song]
         attending = members & selected_members
         absent = members - selected_members
+        icon = get_song_icon(song)
 
-        st.subheader(f"🎵 {song}")
+        st.subheader(f"{icon} {song}")
         st.write(f"👥 全体人数: {len(members)}")
         st.write(f"🙋‍♀️ 出席人数: {len(attending)}")
         st.write(f"✅ 出席: {'、'.join(sorted(attending)) or 'なし'}")
         st.write(f"❌ 不在: {'、'.join(sorted(absent)) or 'なし'}")
 
 else:
-    # 通常曲の表示
+    # ========================
+    # 🏆 通常曲の出席率ランキング
+    # ========================
+    st.markdown("## 🏆 出席率ランキング（高い順）")
     ranking = []
 
     for song, members in songs.items():
@@ -159,17 +184,19 @@ else:
 
     ranking.sort(key=lambda x: x[3], reverse=True)
 
-    st.markdown("## 🏆 出席率ランキング（高い順）")
-
     for song, count, total, rate in ranking:
+        icon = get_song_icon(song)
         leader = song_leaders.get(song, "未設定")
         leader_status = "出席" if leader in selected_members else "不在"
 
         if leader == "未設定":
-            st.write(f"🎵 **{song}**：{count} / {total}人 出席（{rate:.0%}）")
+            st.write(f"{icon} **{song}**：{count} / {total}人 出席（{rate:.0%}）")
         else:
-            st.write(f"🎵 **{song}**（曲責: {leader}（{leader_status}））：{count} / {total}人 出席（{rate:.0%}）")
+            st.write(f"{icon} **{song}**（曲責: {leader}（{leader_status}））：{count} / {total}人 出席（{rate:.0%}）")
 
+    # ========================
+    # 📋 通常曲の詳細出席状況
+    # ========================
     st.markdown("---")
     st.markdown("## 📋 曲ごとの出席状況（出席率順）")
 
@@ -179,11 +206,12 @@ else:
         absent = members - selected_members
         leader = song_leaders.get(song, "未設定")
         leader_status = "出席" if leader in selected_members else "不在"
+        icon = get_song_icon(song)
 
         if leader == "未設定":
-            st.subheader(f"🎵 {song}")
+            st.subheader(f"{icon} {song}")
         else:
-            st.subheader(f"🎵 {song}（曲責: {leader}（{leader_status}））")
+            st.subheader(f"{icon} {song}（曲責: {leader}（{leader_status}））")
 
         st.write(f"👥 全体人数: {len(members)}")
         st.write(f"🙋‍♀️ 出席人数: {len(attending)}")
