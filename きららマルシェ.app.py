@@ -126,9 +126,9 @@ def get_song_icon(song_name):
     if "【スイパラ】" in song_name:
         return "✨"
     elif "【サーオリ】" in song_name:
-        return "🫧🌸"
+        return "🌷"
     elif "【いちょう】" in song_name:
-        return "🫧"
+        return "🍃"
     elif "【単独】" in song_name:
         return "🌸"
     elif "【神戸】" in song_name:
@@ -303,6 +303,7 @@ for song, _, _, _ in ranking:
     st.write(f"🙋‍♀️ 出席人数: {len(attending)}")
     st.write(f"✅ 出席: {'、'.join(sorted(attending)) or 'なし'}")
     st.write(f"❌ 不在: {'、'.join(sorted(absent)) or 'なし'}")
+
 
 
 
