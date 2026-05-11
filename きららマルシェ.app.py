@@ -93,7 +93,6 @@ for song, members in filtered_songs.items():
 ranking.sort(key=lambda x: x[3], reverse=True)
 
 for song, count, total, rate in ranking:
-    icon = get_song_icon(song)
     leader = song_leaders.get(song, "未設定")
     leader_status = "出席" if leader in selected_members else "不在"
 
@@ -114,12 +113,11 @@ for song, _, _, _ in ranking:
     absent = members - selected_members
     leader = song_leaders.get(song, "未設定")
     leader_status = "出席" if leader in selected_members else "不在"
-    icon = get_song_icon(song)
 
     if leader == "未設定":
-        st.subheader(f"{icon} {song}")
+        st.subheader(f" {song}")
     else:
-        st.subheader(f"{icon} {song}（曲責: {leader}（{leader_status}））")
+        st.subheader(f" {song}（曲責: {leader}（{leader_status}））")
 
     st.write(f"👥 全体人数: {len(members)}")
     st.write(f"🙋‍♀️ 出席人数: {len(attending)}")
