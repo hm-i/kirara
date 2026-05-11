@@ -97,9 +97,9 @@ for song, count, total, rate in ranking:
     leader_status = "出席" if leader in selected_members else "不在"
 
     if leader == "未設定":
-        st.write(f"{icon} **{song}**：{count} / {total}人 出席（{rate:.0%}）")
+        st.write(f" **{song}**：{count} / {total}人 出席（{rate:.0%}）")
     else:
-        st.write(f"{icon} **{song}**（曲責: {leader}（{leader_status}））：{count} / {total}人 出席（{rate:.0%}）")
+        st.write(f"**{song}**（曲責: {leader}（{leader_status}））：{count} / {total}人 出席（{rate:.0%}）")
 
 # ========================
 # 📋 通常曲の詳細出席状況
