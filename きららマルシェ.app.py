@@ -47,10 +47,7 @@ song_leaders = {
 }
 
 
-# ========================
-# ✅ 出席メンバーの選択
-# ========================
-st.markdown("## ✅ 出席メンバーを選択")
+
 # ========================
 # ✅ 出席メンバーの選択
 # ========================
@@ -61,7 +58,7 @@ if "selected_members" not in st.session_state:
 
 # 一括選択
 all_selected = st.checkbox(
-    "✅ 全てを選択",
+    "全てを選択",
     value=len(st.session_state.selected_members) == len(all_members)
 )
 
