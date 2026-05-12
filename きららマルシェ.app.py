@@ -56,50 +56,45 @@ if "selected_members" not in st.session_state:
     st.session_state.selected_members = set()
 
 # ------------------------
-# 全選択ボタン
+# ボタン
 # ------------------------
-if st.button("✅ 全てを選択"):
-    st.session_state.selected_members = set(all_members)
+col1, col2 = st.columns(2)
 
-# （任意）全解除ボタン
-if st.button("❌ 全て解除"):
-    st.session_state.selected_members = set()
+with col1:
+    if st.button("✅ 全てを選択"):
+        st.session_state.selected_members = set(all_members)
+
+with col2:
+    if st.button("❌ 全て解除"):
+        st.session_state.selected_members = set()
 
 # ------------------------
 # 個別チェック
 # ------------------------
 cols = st.columns(3)
 
-new_selected = set()
-
 for idx, member in enumerate(all_members):
     col = cols[idx % 3]
 
-    checked = member in st.session_state.selected_members
+    current = member in st.session_state.selected_members
 
-    val = col.checkbox(
+    checked = col.checkbox(
         member,
-        value=checked,
+        value=current,
         key=f"member_{member}"
     )
 
-    if val:
-        new_selected.add(member)
-
-# 状態更新
-st.session_state.selected_members = new_selected
+    # 状態を直接更新
+    if checked:
+        st.session_state.selected_members.add(member)
+    else:
+        st.session_state.selected_members.discard(member)
 
 selected_members = st.session_state.selected_members
 
 st.write(
     f"選択中のメンバー: {', '.join(sorted(selected_members)) or '（未選択）'}"
 )
-
-# ========================
-# 📊 出席率ランキング表示
-# ========================
-
-
 
 # ========================
 # 📊 通常曲の出席率ランキング
