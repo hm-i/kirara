@@ -56,23 +56,21 @@ if "selected_members" not in st.session_state:
     st.session_state.selected_members = set()
 
 # ------------------------
-# 全選択チェック
+# 全選択ボタン
 # ------------------------
-all_selected = st.checkbox(
-    "✅ 全てを選択",
-    key="select_all"
-)
-
-# 全選択ONなら全員追加
-if all_selected:
+if st.button("✅ 全てを選択"):
     st.session_state.selected_members = set(all_members)
+
+# （任意）全解除ボタン
+if st.button("❌ 全て解除"):
+    st.session_state.selected_members = set()
 
 # ------------------------
 # 個別チェック
 # ------------------------
 cols = st.columns(3)
 
-current_selected = set()
+new_selected = set()
 
 for idx, member in enumerate(all_members):
     col = cols[idx % 3]
@@ -86,19 +84,16 @@ for idx, member in enumerate(all_members):
     )
 
     if val:
-        current_selected.add(member)
+        new_selected.add(member)
 
-# 全選択OFF時は個別状態を反映
-if not all_selected:
-    st.session_state.selected_members = current_selected
+# 状態更新
+st.session_state.selected_members = new_selected
 
 selected_members = st.session_state.selected_members
 
 st.write(
     f"選択中のメンバー: {', '.join(sorted(selected_members)) or '（未選択）'}"
 )
-   
-
 
 # ========================
 # 📊 出席率ランキング表示
