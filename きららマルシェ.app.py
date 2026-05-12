@@ -47,7 +47,6 @@ song_leaders = {
 }
 
 
-
 # ========================
 # ✅ 出席メンバーの選択
 # ========================
@@ -56,43 +55,49 @@ st.markdown("## ✅ 出席メンバーを選択")
 if "selected_members" not in st.session_state:
     st.session_state.selected_members = set()
 
-# 一括選択
+# ------------------------
+# 全選択チェック
+# ------------------------
 all_selected = st.checkbox(
-    "全てを選択",
-    value=len(st.session_state.selected_members) == len(all_members)
+    "✅ 全てを選択",
+    key="select_all"
 )
 
+# 全選択ONなら全員追加
 if all_selected:
     st.session_state.selected_members = set(all_members)
-else:
-    if len(st.session_state.selected_members) == len(all_members):
-        st.session_state.selected_members = set()
 
+# ------------------------
+# 個別チェック
+# ------------------------
 cols = st.columns(3)
+
+current_selected = set()
+
 for idx, member in enumerate(all_members):
     col = cols[idx % 3]
-    checked = member in st.session_state.selected_members
-    new_val = col.checkbox(member, value=checked, key=member)
 
-    if new_val and not checked:
-        st.session_state.selected_members.add(member)
-    elif not new_val and checked:
-        st.session_state.selected_members.remove(member)
-if "selected_members" not in st.session_state:
-    st.session_state.selected_members = set()
-
-cols = st.columns(3)
-for idx, member in enumerate(all_members):
-    col = cols[idx % 3]
     checked = member in st.session_state.selected_members
-    new_val = col.checkbox(member, value=checked, key=member)
-    if new_val and not checked:
-        st.session_state.selected_members.add(member)
-    elif not new_val and checked:
-        st.session_state.selected_members.remove(member)
+
+    val = col.checkbox(
+        member,
+        value=checked,
+        key=f"member_{member}"
+    )
+
+    if val:
+        current_selected.add(member)
+
+# 全選択OFF時は個別状態を反映
+if not all_selected:
+    st.session_state.selected_members = current_selected
 
 selected_members = st.session_state.selected_members
-st.write(f"選択中のメンバー: {', '.join(sorted(selected_members)) or '（未選択）'}")
+
+st.write(
+    f"選択中のメンバー: {', '.join(sorted(selected_members)) or '（未選択）'}"
+)
+   
 
 
 # ========================
