@@ -207,7 +207,7 @@ st.write(
 # ========================
 st.markdown("---")
 show_unit_songs = st.checkbox("ユニット曲の出席率を表示する")
-show_machikane_songs = st.checkbox("まちかねの曲を表示する")
+show_amaryosai_songs = st.checkbox("尼涼祭の曲を表示する")
 
 # ========================
 # 📊 出席率ランキング表示
@@ -250,21 +250,21 @@ if show_unit_songs:
 
 if show_machikane_songs:
     # ========================
-    # 🏆 まちかねの曲の出席率ランキング
+    # 🏆 尼涼祭の曲の出席率ランキング
     # ========================
     st.markdown("---")
     st.markdown("## 🍂 まちかねの曲の出席率ランキング")
-    machikane_songs = {k: v for k, v in songs.items() if "【まちかね】" in k}
-    machikane_ranking = []
+    amaryosai_songs = {k: v for k, v in songs.items() if "【尼涼祭】" in k}
+    amaryosai_ranking = []
 
-    for song, members in machikane_songs.items():
+    for song, members in amaryosai_songs.items():
         attending = members & selected_members
         rate = len(attending) / len(members) if members else 0
-        machikane_ranking.append((song, len(attending), len(members), rate))
+        amaryosai_ranking.append((song, len(attending), len(members), rate))
 
-    machikane_ranking.sort(key=lambda x: x[3], reverse=True)
+    amaryosai_ranking.sort(key=lambda x: x[3], reverse=True)
 
-    for song, count, total, rate in machikane_ranking:
+    for song, count, total, rate in amaryosai_ranking:
         icon = get_song_icon(song)
         leader = song_leaders.get(song, "未設定")
         leader_status = "出席" if leader in selected_members else "不在"
@@ -278,15 +278,15 @@ if show_machikane_songs:
     # 📋 まちかねの曲の詳細出席状況
     # ========================
     st.markdown("---")
-    st.markdown("## 📋 まちかねの曲ごとの出席状況")
+    st.markdown("## 📋 尼涼祭の曲ごとの出席状況")
 
-    for song, _, _, _ in machikane_ranking:
-        members = machikane_songs[song]
+    for song, _, _, _ in amaryosai_ranking:
+        members = amaryosai_songs[song]
         attending = members & selected_members
         absent = members - selected_members
         leader = song_leaders.get(song, "未設定")
         leader_status = "出席" if leader in selected_members else "不在"
-        icon = get_song_icon(song)
+        icon = get_song_icon(song) ..
 
         if leader == "未設定":
             st.subheader(f"{icon} {song}")
@@ -306,7 +306,7 @@ st.markdown("## 🏆 通常曲の出席率ランキング（高い順）")
 ranking = []
 
 # まちかねの曲を除外
-filtered_songs = {k: v for k, v in songs.items() if "【まちかね】" not in k}
+filtered_songs = {k: v for k, v in songs.items() if "【尼涼祭】" not in k}
 
 for song, members in filtered_songs.items():
     attending = members & selected_members
