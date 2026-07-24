@@ -253,7 +253,7 @@ if show_machikane_songs:
     # 🏆 尼涼祭の曲の出席率ランキング
     # ========================
     st.markdown("---")
-    st.markdown("## 🍂 まちかねの曲の出席率ランキング")
+    st.markdown("## 🍂 尼涼祭の曲の出席率ランキング")
     amaryosai_songs = {k: v for k, v in songs.items() if "【尼涼祭】" in k}
     amaryosai_ranking = []
 
