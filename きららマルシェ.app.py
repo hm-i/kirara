@@ -286,7 +286,7 @@ if show_machikane_songs:
         absent = members - selected_members
         leader = song_leaders.get(song, "未設定")
         leader_status = "出席" if leader in selected_members else "不在"
-        icon = get_song_icon(song) .
+        icon = get_song_icon(song)
 
         if leader == "未設定":
             st.subheader(f"{icon} {song}")
