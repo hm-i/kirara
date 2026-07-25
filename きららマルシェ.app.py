@@ -248,7 +248,7 @@ if show_unit_songs:
         st.write(f"✅ 出席: {'、'.join(sorted(attending)) or 'なし'}")
         st.write(f"❌ 不在: {'、'.join(sorted(absent)) or 'なし'}")
 
-if show_machikane_songs:
+if show_amaryosai_songs:
     # ========================
     # 🏆 尼涼祭の曲の出席率ランキング
     # ========================
@@ -275,7 +275,7 @@ if show_machikane_songs:
             st.write(f"{icon} **{song}**（曲責: {leader}（{leader_status}））：{count} / {total}人 出席（{rate:.0%}）")
 
     # ========================
-    # 📋 まちかねの曲の詳細出席状況
+    # 📋 尼涼祭の曲の詳細出席状況
     # ========================
     st.markdown("---")
     st.markdown("## 📋 尼涼祭の曲ごとの出席状況")
@@ -305,7 +305,7 @@ st.markdown("---")
 st.markdown("## 🏆 通常曲の出席率ランキング（高い順）")
 ranking = []
 
-# まちかねの曲を除外
+# 尼涼祭の曲を除外
 filtered_songs = {k: v for k, v in songs.items() if "【尼涼祭】" not in k}
 
 for song, members in filtered_songs.items():
